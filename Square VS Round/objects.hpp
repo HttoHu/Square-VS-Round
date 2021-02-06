@@ -2,8 +2,7 @@
 #include <string>
 #include <SDL.h>
 #include "defs.hpp"
-#include "structs.hpp"
-
+#include "pos.hpp"
 struct Entity {
 public:
 	Entity() {}
@@ -15,11 +14,12 @@ public:
 
 	Pos pos;
 	void rotate(double angle);
-
-	bool out_window()const;
+	void set_static() { static_object = true; }
+	bool bad_pos()const;
 	int get_w()const { return w; }
 	int get_h()const { return h; }
 private:
+	bool static_object=false;
 	SDL_Texture* texture;
 	int w, h;
 };

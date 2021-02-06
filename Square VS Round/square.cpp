@@ -12,7 +12,7 @@ void Square::update()
 	double dy = tools::sin(ang) * move_speed;
 	pos.x += dx;
 	pos.y += dy;
-	if (out_window())
+	if (bad_pos())
 	{
 		pos.x -= dx;
 		pos.y -= dy;

@@ -1,5 +1,6 @@
 #include "bullet.hpp"
 #include "player.hpp"
+#include "game.hpp"
 Bullet::Bullet(const std::string& filename) :Entity(0, 0, filename)
 {
 }
@@ -18,7 +19,6 @@ void Bullet::update()
 			if (tools::objects_collide(this, *it) && !is_shooter(*it))
 			{
 				(*it)->hit(this);
-				alive = false;
 			}
 		}
 	}

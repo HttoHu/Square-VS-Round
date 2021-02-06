@@ -2,7 +2,7 @@
 #include <SDL_image.h>
 #include <string>
 #include "defs.hpp"
-#include "structs.hpp"
+#include "game.hpp"
 #include "objects.hpp"
 #include "utility.hpp"
 void Screen::prepare_screen()
@@ -26,6 +26,16 @@ SDL_Texture* Screen::load_texture(const std::string& filename)
 }
 
 void Screen::blit(SDL_Texture* texture, int x, int y)
+{
+	SDL_Rect dest;
+	dest.x = x-app.camera.x;
+	dest.y = y-app.camera.y;
+	SDL_QueryTexture(texture, NULL, NULL, &dest.w, &dest.h);
+
+	SDL_RenderCopy(app.renderer, texture, NULL, &dest);
+}
+
+void Screen::blit_static(SDL_Texture* texture, int x, int y)
 {
 	SDL_Rect dest;
 	dest.x = x;

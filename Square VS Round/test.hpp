@@ -4,7 +4,7 @@
 namespace test
 {
 	void test_init() {
-		Square* enemy = new Square(50, 50, "eny");
+		Square* enemy = new Square(100, 100, "eny");
 		vars::stage.players.push_back(enemy);
 	}
 }

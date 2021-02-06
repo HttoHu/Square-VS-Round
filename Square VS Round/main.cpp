@@ -1,11 +1,11 @@
 #include <SDL.h>
 #include "defs.hpp"
-#include "structs.hpp"
+#include "game.hpp"
 #include "test.hpp"
 #include "widget.hpp"
 void init_the_game() {
 	init_SDL();
-	App::objects_init();
+	App::game_init();
 	test::test_init();
 }
 
@@ -24,6 +24,7 @@ void loop_the_game() {
 		Screen::cap_frame_rate(then, remainer);
 	}
 }
+
 int main(int argc, char** argv) {
 	memset(&app, 0, sizeof(app));
 

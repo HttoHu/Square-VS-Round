@@ -1,13 +1,14 @@
 #include "round.hpp"
 #include "utility.hpp"
 #include "bullet.hpp"
+#include "game.hpp"
 #include <algorithm>
 void Round::fire(Bullet* bul)
 {
 	vars::stage.bullets.push_back(bul);
 
 	app.target = { (double)tools::get_cursor_pos().first,(double)tools::get_cursor_pos().second };
-	tools::set_dx_dy_by_angle(bul->dx, bul->dy, tools::get_angle(pos.x, pos.y, app.target.x, app.target.y), bul->speed);
+	tools::set_dx_dy_by_angle(bul->dx, bul->dy, tools::get_angle(pos.x-app.camera.x, pos.y- app.camera.y, app.target.x, app.target.y), bul->speed);
 	bul->shooter = this;
 	bul->pos = pos;
 	bul->force = common_bul_force;
@@ -17,70 +18,29 @@ void Round::upgrade()
 {
 	if (level >= 4) return;
 	level++;
-	hp += 20;
-
-	common_bul_force += 5;
-	Q_bul_force = 25;
+	if (level == 2)
+	{
+		hp = 70;
+		common_bul_force += 5;
+		Q_bul_force = 25;
+	}
+	if (level == 3)
+	{
+		hp = 90;
+		common_bul_force += 5;
+		Q_bul_force = 30;
+	}
 
 }
 
 void Round::update()
 {
-	double dx = 0;
-	double dy = 0;
 	bullet_cnt += shoot_speed;
-	Q_skill_cnt++;
+	Q_skill_cnt++, E_skill_cnt++;
 	// You can shoot two high speed bullet at the same time;
 	Q_skill_cnt = std::min(Q_skill_cnt, 600);
-
-	bullet_cnt = std::min(500,bullet_cnt);
-	static Pos last_dest_pos = { 0.0,0.0 };
-	static double ang = 0.0;
-	// Q Skill
-	if (app.keyboard[SDL_SCANCODE_Q] && level >=2 &&Q_skill_cnt>=300)
-	{
-		Q_skill_cnt -= 300;
-		Bullet* high_speed_bull = create_Q_bullet();
-		fire(high_speed_bull);
-	}
-
-	// keyboad move
-	if (app.keyboard[SDL_SCANCODE_W] || app.keyboard[SDL_SCANCODE_S] || app.keyboard[SDL_SCANCODE_D] || app.keyboard[SDL_SCANCODE_A])
-	{
-		app.dest_pos_valid = false;
-		dx = (double)(app.keyboard[SDL_SCANCODE_D] - app.keyboard[SDL_SCANCODE_A]);
-		dy = (double)(app.keyboard[SDL_SCANCODE_S] - app.keyboard[SDL_SCANCODE_W]);
-		if (abs(dx) + abs(dy) == 2)
-		{
-			dx *= move_speed / sqrt(2.0);
-			dy *= move_speed / sqrt(2.0);
-		}
-		else {
-			dx *= move_speed;
-			dy *= move_speed;
-		}
-	}
-	// mouse move
-	else if (app.dest_pos_valid && !pos.collide(app.dest_pos, move_speed))
-	{
-		if (!last_dest_pos.collide(app.dest_pos, 1.0))
-		{
-			ang = tools::get_angle(pos.x, pos.y, app.dest_pos.x, app.dest_pos.y);
-			last_dest_pos = app.dest_pos;
-		}
-		dx = tools::sin(ang) * move_speed;
-		dy = -tools::cos(ang) * move_speed;
-	}
-	else return;
-	
-	
-	pos.x += dx;
-	pos.y += dy;
-	if (out_window())
-	{
-		pos.x -= dx;
-		pos.y -= dy;
-	}
+	E_skill_cnt = std::min(E_skill_cnt, 700);
+	bullet_cnt = std::min(500, bullet_cnt);
 }
 
 void Round::show()
@@ -94,7 +54,33 @@ bool Round::skill_enable(int skill_id)
 {
 	if (skill_id == 1 && Q_skill_cnt >= 300)
 		return true;
+	else if (skill_id == 2 && E_skill_cnt >= 600)
+		return true;
 	return false;
+}
+
+void Round::skill_run(int skill_id)
+{
+	if (skill_id == 1)
+	{
+		if (level >= 2 && Q_skill_cnt >= 300)
+		{
+			Q_skill_cnt -= 300;
+			Bullet* high_speed_bull = create_Q_bullet();
+			fire(high_speed_bull);
+		}
+		return;
+	}
+	else if (skill_id == 2)
+	{
+		if (level >= 3 && E_skill_cnt >= 600)
+		{
+			printf("OK\n");
+			E_skill_cnt -= 600;
+			RoundShield* shield = new RoundShield(level, pos.x, pos.y, this);
+			vars::stage.players.push_front(shield);
+		}
+	}
 }
 
 Bullet* Round::create_Q_bullet()
@@ -105,5 +91,29 @@ Bullet* Round::create_Q_bullet()
 	return bul;
 }
 
+RoundShield::RoundShield(int level, int _x, int _y, Player* _master) :Player(_x-25, _y-25, "../assets/round_shield.png"),master(_master)
+{
+	if (level == 3) hp = 70;
+	else if (level == 4) hp = 100;
+	else hp = 0;
+	move_speed = 0;
+}
 
+void RoundShield::hit(Bullet* bul)
+{
+	if (bul->shooter == master)
+		return;
+	bul->alive = false;
+	hp -= bul->force;
+	if (hp < 0) hp = 0;
+}
 
+void RoundShield::show()
+{
+	Entity::show();
+}
+
+Camera::Camera(int _x, int _y, Player* master) :Player(_x, _y, "../assets/round_camera.png")
+{
+	hp = 30;
+}

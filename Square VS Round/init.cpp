@@ -2,7 +2,7 @@
 #include <cstdio>
 #include <SDL_image.h>
 #include "defs.hpp"
-#include "structs.hpp"
+#include "game.hpp"
 namespace Widgets
 {
 	namespace vars {

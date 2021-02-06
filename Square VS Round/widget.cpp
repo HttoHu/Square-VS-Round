@@ -1,5 +1,5 @@
 #include "widget.hpp"
-#include "structs.hpp"
+#include "game.hpp"
 #include <cstdio>
 #include <iostream>
 #include <map>
@@ -32,7 +32,8 @@ namespace Widgets
 	ColorRGB get_color_rgb(ColorTag color_tag)
 	{
 		const std::map<ColorTag, ColorRGB> table = {
-			{ColorTag::WHITE,ColorRGB{255,255,255}},{ColorTag::BLACK,ColorRGB{0,0,0}}
+			{ColorTag::WHITE,ColorRGB{255,255,255}},{ColorTag::BLACK,ColorRGB{0,0,0}},
+			{ColorTag::GREEN,ColorRGB{56,208,78}},{ColorTag::RED,ColorRGB{236,53,53}}
 		};
 		auto res = table.find(color_tag);
 		if (res == table.end())
@@ -51,16 +52,16 @@ namespace Widgets
 		auto color = to_sdl_color(get_color_rgb(BLACK));
 		SDL_Surface* surface = TTF_RenderUNICODE_Blended(vars::main_font, str, color);
 		SDL_Texture* texture = SDL_CreateTextureFromSurface(app.renderer, surface);
-		Screen::blit(texture, x, y);
+		Screen::blit_static(texture, x, y);
 		SDL_FreeSurface(surface);
 		SDL_DestroyTexture(texture);
 	}
 	void print_text(int x, int y, const std::string& str)
 	{
-		auto color = to_sdl_color(get_color_rgb(BLACK));
+		auto color = to_sdl_color(get_color_rgb(GREEN));
 		SDL_Surface* surface = TTF_RenderUTF8_Blended(vars::main_font, str.c_str(), color);
 		SDL_Texture* texture = SDL_CreateTextureFromSurface(app.renderer, surface);
-		Screen::blit(texture,x,y);
+		Screen::blit_static(texture,x,y);
 		SDL_FreeSurface(surface);
 		SDL_DestroyTexture(texture);
 	}
@@ -92,7 +93,7 @@ namespace Widgets
 	}
 	void Image::show()
 	{
-		Screen::blit(texture, x, y);
+		Screen::blit_static(texture, x, y);
 	}
 	void Image::change_pic(const std::string& pic_str)
 	{

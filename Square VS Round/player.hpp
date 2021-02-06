@@ -20,5 +20,6 @@ public:
 	virtual void fire(Bullet* bul);
 	virtual void hit(Bullet* bul);
 	virtual bool skill_enable(int skill_id);
+	virtual void skill_run(int skill_id) {};
 	~Player() {}
 };

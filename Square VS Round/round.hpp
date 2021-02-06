@@ -14,10 +14,32 @@ public:
 	void show()override;
 
 	bool skill_enable(int skill_id)override;
+	void skill_run(int skill_id)override;
+
 	~Round()override {}
 private:
 	int common_bul_force = 10;
 	int Q_bul_force = 15;
 	int Q_skill_cnt = 0;
+	int E_skill_cnt = 0;
 	Bullet* create_Q_bullet();
+};
+
+class RoundShield : public Player
+{
+public:
+	RoundShield(int level,int _x,int _y,Player *_master);
+	void hit(Bullet* bul)override;
+	void show()override;
+private:
+	Player* master;
+};
+class Camera : public Player {
+public:
+	Camera(int _x, int _y, Player* master);
+	void hit(Bullet* bul)override;
+	void update();
+private:
+	Player* master;
+	std::vector<int> ins;
 };

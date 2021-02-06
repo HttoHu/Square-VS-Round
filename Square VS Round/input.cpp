@@ -1,5 +1,5 @@
 #include <SDL.h>
-#include "structs.hpp"
+#include "game.hpp"
 #include "defs.hpp"
 #include "objects.hpp"
 #include "utility.hpp"

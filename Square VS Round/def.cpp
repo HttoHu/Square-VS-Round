@@ -1,3 +1,3 @@
 #include "defs.hpp"
-#include "structs.hpp"
+#include "game.hpp"
 App app;
