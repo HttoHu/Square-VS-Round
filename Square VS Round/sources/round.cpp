@@ -1,7 +1,7 @@
-#include "round.hpp"
-#include "utility.hpp"
-#include "bullet.hpp"
-#include "game.hpp"
+#include "../includes/round.hpp"
+#include "../includes/utility.hpp"
+#include "../includes/bullet.hpp"
+#include "../includes/game.hpp"
 #include <algorithm>
 void Round::fire(Bullet* bul)
 {
@@ -38,8 +38,8 @@ void Round::update()
 	bullet_cnt += shoot_speed;
 	Q_skill_cnt++, E_skill_cnt++;
 	// You can shoot two high speed bullet at the same time;
-	Q_skill_cnt = std::min(Q_skill_cnt, 600);
-	E_skill_cnt = std::min(E_skill_cnt, 700);
+	Q_skill_cnt = std::min(Q_skill_cnt, 550);
+	E_skill_cnt = std::min(E_skill_cnt, 600);
 	bullet_cnt = std::min(500, bullet_cnt);
 }
 
@@ -116,4 +116,12 @@ void RoundShield::show()
 Camera::Camera(int _x, int _y, Player* master) :Player(_x, _y, "../assets/round_camera.png")
 {
 	hp = 30;
+}
+
+void Camera::hit(Bullet* bul)
+{
+}
+
+void Camera::update()
+{
 }

@@ -1,6 +1,6 @@
-#include "bullet.hpp"
-#include "player.hpp"
-#include "game.hpp"
+#include "../includes/bullet.hpp"
+#include "../includes/player.hpp"
+#include "../includes/game.hpp"
 Bullet::Bullet(const std::string& filename) :Entity(0, 0, filename)
 {
 }

@@ -1,5 +1,5 @@
-#include "widget.hpp"
-#include "game.hpp"
+#include "../includes/widget.hpp"
+#include "../includes/game.hpp"
 #include <cstdio>
 #include <iostream>
 #include <map>

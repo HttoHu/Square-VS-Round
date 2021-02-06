@@ -1,8 +1,8 @@
 #include <SDL.h>
-#include "defs.hpp"
-#include "game.hpp"
-#include "test.hpp"
-#include "widget.hpp"
+#include "../includes/defs.hpp"
+#include "../includes/game.hpp"
+#include "../includes/test.hpp"
+#include "../includes/widget.hpp"
 void init_the_game() {
 	init_SDL();
 	App::game_init();

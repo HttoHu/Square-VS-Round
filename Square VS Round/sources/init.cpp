@@ -1,8 +1,8 @@
 #include <SDL.h>
 #include <cstdio>
 #include <SDL_image.h>
-#include "defs.hpp"
-#include "game.hpp"
+#include "../includes/defs.hpp"
+#include "../includes/game.hpp"
 namespace Widgets
 {
 	namespace vars {

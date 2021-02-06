@@ -1,8 +1,8 @@
-#include "objects.hpp"
-#include "game.hpp"
-#include "game_map.hpp"
-#include "utility.hpp"
-#include "player.hpp"
+#include "../includes/objects.hpp"
+#include "../includes/game.hpp"
+#include "../includes/game_map.hpp"
+#include "../includes/utility.hpp"
+#include "../includes/player.hpp"
 namespace vars
 {
 	Stage stage;

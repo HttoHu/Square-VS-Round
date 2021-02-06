@@ -1,5 +1,5 @@
-#include "utility.hpp"
-#include "game.hpp"
+#include "../includes/utility.hpp"
+#include "../includes/game.hpp"
 std::pair<int, int> tools::get_cursor_pos()
 {
     int x, y;

@@ -1,10 +1,10 @@
 #include <SDL.h>
-#include "game.hpp"
-#include "defs.hpp"
-#include "objects.hpp"
-#include "utility.hpp"
-#include "round.hpp"
-#include "bullet.hpp"
+#include "../includes/game.hpp"
+#include "../includes/defs.hpp"
+#include "../includes/objects.hpp"
+#include "../includes/utility.hpp"
+#include "../includes/round.hpp"
+#include "../includes/bullet.hpp"
 
 void process_keydown(SDL_KeyboardEvent *event) {
 	if (event->repeat == 0)

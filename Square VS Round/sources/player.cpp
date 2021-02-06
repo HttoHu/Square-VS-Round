@@ -1,7 +1,7 @@
-#include "player.hpp"
-#include "utility.hpp"
-#include "bullet.hpp"
-#include "game.hpp"
+#include "../includes/player.hpp"
+#include "../includes/utility.hpp"
+#include "../includes/bullet.hpp"
+#include "../includes/game.hpp"
 void Player::fire(Bullet* bul)
 {
 	vars::stage.bullets.push_back(bul);

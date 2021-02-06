@@ -1,4 +1,4 @@
-#include "pos.hpp"
+#include "../includes/pos.hpp"
 #include <cmath>
 bool Pos::collide(Pos p, double eps)
 {

@@ -1,6 +1,6 @@
-#include "square.hpp"
-#include "utility.hpp"
-#include "bullet.hpp"
+#include "../includes/square.hpp"
+#include "../includes/utility.hpp"
+#include "../includes/bullet.hpp"
 
 void Square::update()
 {
