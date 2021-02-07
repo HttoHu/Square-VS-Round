@@ -37,6 +37,8 @@ void process_mouse(SDL_MouseButtonEvent* event)
 			vars::player->bullet_cnt -= 100;
 			auto pos = tools::get_cursor_pos();
 			app.target = { (double)pos.first,(double)pos.second };
+			// printf("Target :%llf, %llf\n", app.target.x, app.target.y);
+			vars::player->aim({ app.target.x + app.camera.x,app.target.y + app.camera.y });
 			vars::player->fire(new Bullet("../assets/round_bullet.png"));
 		}
 	}

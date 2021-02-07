@@ -1,7 +1,7 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <string>
-#include "../includes/defs.hpp"
+#include "../includes/draw.hpp"
 #include "../includes/game.hpp"
 #include "../includes/objects.hpp"
 #include "../includes/player.hpp"
@@ -21,7 +21,7 @@ SDL_Texture* Screen::load_texture(const std::string& filename)
 {
 	SDL_Texture* texture;
 
-	SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "Loading %s", filename.c_str());
+	//SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, "Loading %s", filename.c_str());
 
 	texture = IMG_LoadTexture(app.renderer, filename.c_str());
 

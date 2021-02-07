@@ -31,5 +31,5 @@ void Square::update()
 void Square::show()
 {
 	update();
-	Entity::show();
+	Player::show();
 }

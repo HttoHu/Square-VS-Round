@@ -9,5 +9,5 @@ namespace tools {
 	double cos(double x);
 	double get_angle(double x1, double y1, double x2, double y2);
 	void set_dx_dy_by_angle(double& dx, double& dy, double angle,double speed);
-
+	void draw_rect(int x, int y, int w, int h, int color);
 }

@@ -1,5 +1,6 @@
 #include "../includes/widget.hpp"
 #include "../includes/game.hpp"
+#include "../includes/draw.hpp"
 #include <cstdio>
 #include <iostream>
 #include <map>
@@ -33,7 +34,8 @@ namespace Widgets
 	{
 		const std::map<ColorTag, ColorRGB> table = {
 			{ColorTag::WHITE,ColorRGB{255,255,255}},{ColorTag::BLACK,ColorRGB{0,0,0}},
-			{ColorTag::GREEN,ColorRGB{56,208,78}},{ColorTag::RED,ColorRGB{236,53,53}}
+			{ColorTag::GREEN,ColorRGB{56,208,78}},{ColorTag::RED,ColorRGB{236,53,53}},
+			{ColorTag::PINK,ColorRGB{255,174,200}}
 		};
 		auto res = table.find(color_tag);
 		if (res == table.end())

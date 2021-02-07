@@ -43,7 +43,13 @@ void player_update() {
 
 	Player* p = vars::player;
 	if (app.keyboard[SDL_SCANCODE_Q])
+	{
+		auto res = tools::get_cursor_pos();
+		Pos cos_p = { (double)res.first,(double)res.second };
+		p->aim({ cos_p.x + app.camera.x,cos_p.y + app.camera.y });
+
 		p->skill_run(1);
+	}
 	if (app.keyboard[SDL_SCANCODE_E])
 		p->skill_run(2);
 
@@ -66,17 +72,6 @@ void player_update() {
 			dx *= move_speed;
 			dy *= move_speed;
 		}
-	}
-	// mouse move
-	else if (app.dest_pos_valid && !p->pos.collide(app.dest_pos, move_speed))
-	{
-		if (!last_dest_pos.collide(app.dest_pos, 1.0))
-		{
-			ang = tools::get_angle(p->pos.x, p->pos.y, app.dest_pos.x, app.dest_pos.y);
-			last_dest_pos = app.dest_pos;
-		}
-		dx = tools::sin(ang) * move_speed;
-		dy = -tools::cos(ang) * move_speed;
 	}
 	else return;
 

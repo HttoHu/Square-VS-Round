@@ -3,6 +3,7 @@
 #include "../includes/game.hpp"
 #include "../includes/test.hpp"
 #include "../includes/widget.hpp"
+#include "../includes/draw.hpp"
 void init_the_game() {
 	init_SDL();
 	App::game_init();

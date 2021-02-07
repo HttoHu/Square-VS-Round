@@ -6,7 +6,7 @@
 namespace Widgets
 {
 	enum ColorTag {
-		BLACK,WHITE,GREEN,RED
+		BLACK,WHITE,GREEN,RED,PINK
 	};
 	enum FontSize {
 		BIG,NORMAL,SMALL

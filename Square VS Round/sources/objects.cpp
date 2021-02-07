@@ -1,5 +1,6 @@
 #include "../includes/objects.hpp"
 #include "../includes/game.hpp"
+#include "../includes/draw.hpp"
 #include "../includes/game_map.hpp"
 #include "../includes/utility.hpp"
 #include "../includes/player.hpp"

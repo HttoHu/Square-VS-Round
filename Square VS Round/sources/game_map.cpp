@@ -1,5 +1,5 @@
 #include "../includes/game_map.hpp"
-#include "../includes/defs.hpp"
+#include "../includes/draw.hpp"
 #include <fstream>
 #include <queue>
 Map::Map(const std::string& file_name)

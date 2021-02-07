@@ -6,9 +6,8 @@
 void Round::fire(Bullet* bul)
 {
 	vars::stage.bullets.push_back(bul);
-
-	app.target = { (double)tools::get_cursor_pos().first,(double)tools::get_cursor_pos().second };
-	tools::set_dx_dy_by_angle(bul->dx, bul->dy, tools::get_angle(pos.x-app.camera.x, pos.y- app.camera.y, app.target.x, app.target.y), bul->speed);
+	Pos p = get_aim_pos();
+	tools::set_dx_dy_by_angle(bul->dx, bul->dy, tools::get_angle(pos.x, pos.y, p.x, p.y), bul->speed);
 	bul->shooter = this;
 	bul->pos = pos;
 	bul->force = common_bul_force;
@@ -20,12 +19,14 @@ void Round::upgrade()
 	level++;
 	if (level == 2)
 	{
+		hp_cap = 70;
 		hp = 70;
 		common_bul_force += 5;
 		Q_bul_force = 25;
 	}
 	if (level == 3)
 	{
+		hp_cap = 90;
 		hp = 90;
 		common_bul_force += 5;
 		Q_bul_force = 30;
@@ -46,7 +47,7 @@ void Round::update()
 void Round::show()
 {
 	update();
-	Entity::show();
+	Player::show();
 
 }
 
@@ -110,7 +111,7 @@ void RoundShield::hit(Bullet* bul)
 
 void RoundShield::show()
 {
-	Entity::show();
+	Player::show();
 }
 
 Camera::Camera(int _x, int _y, Player* master) :Player(_x, _y, "../assets/round_camera.png")
@@ -120,8 +121,36 @@ Camera::Camera(int _x, int _y, Player* master) :Player(_x, _y, "../assets/round_
 
 void Camera::hit(Bullet* bul)
 {
+	if (bul->shooter == master)
+		return;
+	bul->alive = false;
+	hp -= bul->force;
+	if (hp < 0) hp = 0;
+}
+
+void Camera::fire(Bullet* bul)
+{
+	vars::stage.bullets.push_back(bul);
+	Pos p = get_aim_pos();
+	tools::set_dx_dy_by_angle(bul->dx, bul->dy, tools::get_angle(pos.x, pos.y, p.x, p.y), bul->speed);
+	bul->shooter = this;
+	bul->pos = pos;
+	bul->force = 15;
 }
 
 void Camera::update()
 {
+	bullet_cnt ++;
+	bullet_cnt = std::max(bullet_cnt, 200);
+	if (bullet_cnt >= 100)
+	{
+		bullet_cnt -= 100;
+		aim(master->get_aim_pos());
+		fire(new Bullet(".. / assets / round_bullet.png"));
+	}
+	Pos dest = master->pos;
+	double dx = 0;
+	double dy = 0;
+
+
 }

@@ -1,5 +1,6 @@
 #include "../includes/utility.hpp"
 #include "../includes/game.hpp"
+#include "../includes/widget.hpp"
 std::pair<int, int> tools::get_cursor_pos()
 {
     int x, y;
@@ -40,5 +41,15 @@ void tools::set_dx_dy_by_angle(double& dx, double& dy, double angle, double spee
 {
 	dx = sin(angle) * speed;
 	dy = -cos(angle) * speed;
+}
+
+void tools::draw_rect(int x, int y, int w, int h, int color)
+{
+
+	SDL_Rect rect = { x-app.camera.x,y-app.camera.y,w,h};
+	Widgets::ColorRGB c = Widgets::get_color_rgb((Widgets::ColorTag)color);
+	SDL_SetRenderDrawColor(app.renderer, c.r, c.g, c.b, 255);
+	SDL_RenderDrawRect(app.renderer, &rect);
+	SDL_RenderFillRect(app.renderer, &rect);
 }
 
