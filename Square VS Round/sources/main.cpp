@@ -1,4 +1,5 @@
 #include <SDL.h>
+#include <time.h>
 #include "../includes/defs.hpp"
 #include "../includes/game.hpp"
 #include "../includes/test.hpp"
@@ -20,6 +21,7 @@ void loop_the_game() {
 		Screen::prepare_screen();
 		do_input();
 		app.update();
+		test::test_update();
 		Screen::draw_objects();
 		Screen::update_screen();
 		Screen::cap_frame_rate(then, remainer);
@@ -27,6 +29,7 @@ void loop_the_game() {
 }
 
 int main(int argc, char** argv) {
+	srand(clock());
 	memset(&app, 0, sizeof(app));
 
 	init_the_game();

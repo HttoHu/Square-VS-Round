@@ -2,6 +2,7 @@
 #include <string>
 const int SCREEN_WIDTH = 1280;
 const int SCREEN_HEIGHT = 720;
+const int BRICK_SIZE = 40;
 const double eps = 1;
 struct SDL_Texture;
 struct Player;

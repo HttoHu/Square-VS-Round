@@ -18,6 +18,8 @@ public:
 	bool bad_pos()const;
 	int get_w()const { return w; }
 	int get_h()const { return h; }
+	int get_center_x()const { return int(pos.x) + w / 2; }
+	int get_center_y()const { return int(pos.y) + h / 2; }
 private:
 	bool static_object=false;
 	SDL_Texture* texture;

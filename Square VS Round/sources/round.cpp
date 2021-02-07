@@ -8,7 +8,7 @@ void Round::fire(Bullet* bul)
 	vars::stage.bullets.push_back(bul);
 	Pos p = get_aim_pos();
 	tools::set_dx_dy_by_angle(bul->dx, bul->dy, tools::get_angle(pos.x, pos.y, p.x, p.y), bul->speed);
-	bul->shooter = this;
+	bul->team = team_id;
 	bul->pos = pos;
 	bul->force = common_bul_force;
 }
@@ -22,14 +22,18 @@ void Round::upgrade()
 		hp_cap = 70;
 		hp = 70;
 		common_bul_force += 5;
-		Q_bul_force = 25;
 	}
 	if (level == 3)
 	{
 		hp_cap = 90;
 		hp = 90;
 		common_bul_force += 5;
-		Q_bul_force = 30;
+	}
+	if (level == 4)
+	{
+		hp_cap = 120;
+		hp = 120;
+		common_bul_force += 10;
 	}
 
 }
@@ -37,11 +41,12 @@ void Round::upgrade()
 void Round::update()
 {
 	bullet_cnt += shoot_speed;
-	Q_skill_cnt++, E_skill_cnt++;
+	Q_skill_cnt++, E_skill_cnt++,R_skill_cnt++;
 	// You can shoot two high speed bullet at the same time;
 	Q_skill_cnt = std::min(Q_skill_cnt, 550);
 	E_skill_cnt = std::min(E_skill_cnt, 600);
-	bullet_cnt = std::min(500, bullet_cnt);
+	R_skill_cnt = std::min(R_skill_cnt, 1200);
+	bullet_cnt = std::min(bullet_cnt,500);
 }
 
 void Round::show()
@@ -53,34 +58,37 @@ void Round::show()
 
 bool Round::skill_enable(int skill_id)
 {
-	if (skill_id == 1 && Q_skill_cnt >= 300)
+	if (level >= 2 && skill_id == 1 && Q_skill_cnt >= 300)
 		return true;
-	else if (skill_id == 2 && E_skill_cnt >= 600)
+	else if (level >= 3 && skill_id == 2 && E_skill_cnt >= 600)
+		return true;
+	else if (level >= 4 && skill_id == 3 && R_skill_cnt >= 1200)
 		return true;
 	return false;
 }
 
 void Round::skill_run(int skill_id)
 {
+	if (!skill_enable(skill_id))
+		return;
 	if (skill_id == 1)
 	{
-		if (level >= 2 && Q_skill_cnt >= 300)
-		{
-			Q_skill_cnt -= 300;
-			Bullet* high_speed_bull = create_Q_bullet();
-			fire(high_speed_bull);
-		}
+		Q_skill_cnt -= 300;
+		Bullet* high_speed_bull = create_Q_bullet();
+		fire(high_speed_bull);
 		return;
 	}
 	else if (skill_id == 2)
 	{
-		if (level >= 3 && E_skill_cnt >= 600)
-		{
-			printf("OK\n");
-			E_skill_cnt -= 600;
-			RoundShield* shield = new RoundShield(level, pos.x, pos.y, this);
-			vars::stage.players.push_front(shield);
-		}
+		E_skill_cnt -= 600;
+		RoundShield* shield = new RoundShield(level, pos.x, pos.y, this);
+		vars::stage.players.push_front(shield);
+	}
+	else if (skill_id == 3)
+	{
+		R_skill_cnt -= 1200;
+		Camera* cam = new Camera(pos.x + 50, pos.y + 50, this);
+		vars::stage.players.push_back(cam);
 	}
 }
 
@@ -92,17 +100,18 @@ Bullet* Round::create_Q_bullet()
 	return bul;
 }
 
-RoundShield::RoundShield(int level, int _x, int _y, Player* _master) :Player(_x-25, _y-25, "../assets/round_shield.png"),master(_master)
+RoundShield::RoundShield(int level, int _x, int _y, Player* _master) :Player(_x - 25, _y - 25, "../assets/round_shield.png"), master(_master)
 {
 	if (level == 3) hp = 70;
 	else if (level == 4) hp = 100;
 	else hp = 0;
+	hp_cap = hp;
 	move_speed = 0;
 }
 
 void RoundShield::hit(Bullet* bul)
 {
-	if (bul->shooter == master)
+	if (bul->team == master->team_id)
 		return;
 	bul->alive = false;
 	hp -= bul->force;
@@ -114,14 +123,15 @@ void RoundShield::show()
 	Player::show();
 }
 
-Camera::Camera(int _x, int _y, Player* master) :Player(_x, _y, "../assets/round_camera.png")
+Camera::Camera(int _x, int _y, Player* _master) :Player(_x, _y, "../assets/round_camera.png"),master(_master)
 {
-	hp = 30;
+	hp = 100;
+	hp_cap = 100;
 }
 
 void Camera::hit(Bullet* bul)
 {
-	if (bul->shooter == master)
+	if (bul->team == master->team_id)
 		return;
 	bul->alive = false;
 	hp -= bul->force;
@@ -133,24 +143,36 @@ void Camera::fire(Bullet* bul)
 	vars::stage.bullets.push_back(bul);
 	Pos p = get_aim_pos();
 	tools::set_dx_dy_by_angle(bul->dx, bul->dy, tools::get_angle(pos.x, pos.y, p.x, p.y), bul->speed);
-	bul->shooter = this;
+	bul->team = team_id;
 	bul->pos = pos;
 	bul->force = 15;
 }
 
 void Camera::update()
 {
-	bullet_cnt ++;
-	bullet_cnt = std::max(bullet_cnt, 200);
+	bullet_cnt++;
+	bullet_cnt = std::min(bullet_cnt, 200);
+	// fire
 	if (bullet_cnt >= 100)
 	{
 		bullet_cnt -= 100;
 		aim(master->get_aim_pos());
-		fire(new Bullet(".. / assets / round_bullet.png"));
+		fire(new Bullet("../assets/round_bullet.png"));
 	}
+	// follow master
 	Pos dest = master->pos;
 	double dx = 0;
 	double dy = 0;
+	tools::set_dx_dy_by_angle(dx, dy, tools::get_angle(pos.x, pos.y, dest.x, dest.y), 2);
+	dest.x += master->get_w() / 2;
+	dest.y += master->get_h() / 2;
+	double eps = std::max(master->get_h(), master->get_w());
+	if (!dest.collide(pos, eps)) 
+		pos.x += dx, pos.y += dy;
+}
 
-
+void Camera::show()
+{
+	update();
+	Player::show();
 }

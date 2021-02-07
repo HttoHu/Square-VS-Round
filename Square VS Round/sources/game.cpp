@@ -52,7 +52,8 @@ void player_update() {
 	}
 	if (app.keyboard[SDL_SCANCODE_E])
 		p->skill_run(2);
-
+	if (app.keyboard[SDL_SCANCODE_R])
+		p->skill_run(3);
 	static Pos last_dest_pos = { 0.0,0.0 };
 	static double ang = 0.0;
 	// Q Skill
@@ -100,6 +101,7 @@ void App::game_init()
 	app.game_map->show();
 	// init cursor and play...
 	vars::player = new Round((double)SCREEN_WIDTH / 2, (double)SCREEN_HEIGHT / 2, "player1");
+	vars::player->upgrade();
 	vars::player->upgrade();
 	vars::player->upgrade();
 	auto mouse_pos = tools::get_cursor_pos();
@@ -151,5 +153,7 @@ void App::update()
 	//=================================================================================
 	app.camera = { vars::player->pos.x - (SCREEN_WIDTH / 2) ,vars::player->pos.y - (SCREEN_HEIGHT / 2) };
 	// ======================process skill state =========================================
+
+
 }
 

@@ -32,5 +32,5 @@ void Bullet::show()
 
 bool Bullet::is_shooter(Player* p)
 {
-	return shooter == p;
+	return team == p->team_id;
 }

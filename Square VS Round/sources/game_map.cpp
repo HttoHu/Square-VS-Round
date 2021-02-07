@@ -59,68 +59,70 @@ bool Map::enable_to_walk(int x1, int y1, int x2, int y2)
 				return false;
 	return true;
 }
+std::pair<int, int> Map::gen_space(int no)
+{
+	int cnt = 0;
+	for(int i=0;i<content.size();i++)
+		for(int j=0;j<content.size();j++)
+			if (content[i][j] == 0)
+			{
+				cnt++;
+				if (cnt == no)
+					return { j*BRICK_SIZE+BRICK_SIZE/2,i * BRICK_SIZE + BRICK_SIZE / 2 };
+			}
+	return { -1,-1 };
+}
 namespace tools
 {
-
-    std::pair<int, int> getPos(int x, int y, int dir) {
-        int moveX[4] = { 1, -1, 0, 0 };
-        int moveY[4] = { 0, 0, -1, 1 };
-        return std::make_pair(x + moveX[dir - 1], y + moveY[dir - 1]);
-    }
-
+	namespace {
+		int vis[50][50];
+		int track[50][50];
+	}
     // 1 -> LEFT 
     // 2 -> RIGHT
     // 3 -> UP
     // 4 -> DOWN
-    bool count_shortest_path(const Map& map, std::vector<int>& path, int x1, int y1, int x2, int y2)
-    {
-        std::queue<std::pair<int, int> > q;
-        bool vis[50][50] = { 0 };
-        int tmp[50][50] = { 0 };
-        int moveX[4] = { -1, 1, 0, 0 };
-        int moveY[4] = { 0, 0, -1, 1 };
-        int rvs[4] = { 2, 1, 4, 3 };
-        int ok = 0;
-        q.push(std::make_pair(x1, y1));
-        vis[x1][y1] = 1;
-        while (!q.empty())
-        {
-            int curX = q.front().first;
-            int curY = q.front().second;
-            q.pop();
-            for (int i = 0; i < 4; i++)
-            {
-                int nxtX = curX + moveX[i];
-                int nxtY = curY + moveY[i];
-                if (nxtX >= 0 && nxtX < map.width && nxtY >= 0 && nxtY < map.hight && !map.content[nxtY][nxtX] && !vis[nxtX][nxtY])
-                {
-                    q.push(std::make_pair(nxtX, nxtY));
-                    vis[nxtX][nxtY] = 1;
-                    tmp[nxtX][nxtY] = rvs[i];
-                    if (nxtX == x2 && nxtY == y2)
-                    {
-                        ok = 1;
-                        break;
-                    }
-                }
-            }
-            if (ok)
-                break;
-        }
-        if (!ok) return 0;
-        std::deque<int> reV;
-        int curX = x2, curY = y2;
-        while (curX != x1 || curY != y1)
-        {
-            reV.push_front(tmp[curX][curY]);
-            std::pair<int, int> ch = getPos(curX, curY, tmp[curX][curY]);
-            curX = ch.first;
-            curY = ch.second;
-        }
-        for (int i = 0; i < reV.size(); i++)
-        {
-            path.push_back(rvs[reV[i] - 1]);
-        }
-        return 1;
-    }
+	bool count_shortest_path(const Map& map, std::vector<int>& path, int x1, int y1, int x2, int y2)
+	{
+		int dx[] = { 0, -1,1,0,0 };
+		int dy[] = { 0, 0,0,-1,1 };
+		int rev[] = { 0,2,1,4,3 };
+		memset(vis, 0, sizeof(vis));
+		memset(track, 0, sizeof(track));
+		std::queue<std::pair<int, int>> q;
+		q.push({ x1,y1 });
+		vis[x1][y1] = 1;
+		bool ok = false;
+		while (!q.empty())
+		{
+			int x = q.front().first;
+			int y = q.front().second;
+			q.pop();
+
+			for (int i = 1; i <= 4; i++)
+			{
+				int nx = x + dx[i];
+				int ny = y + dy[i];
+				if (vis[nx][ny] || nx < 0 || ny < 0 || nx >= map.width || ny >= map.hight || map.content[ny][nx])continue;
+
+				q.push({ nx,ny });
+				track[nx][ny] = rev[i];
+				vis[nx][ny] = 1;
+				if (nx == x2 && ny == y2) {
+					ok = true; break;
+				}
+			}
+			if (ok) break;
+		}
+		if (!ok)return ok;
+
+		while (x2 != x1 || y2 != y1)
+		{
+			int dir = track[x2][y2];
+			path.push_back(rev[dir]);
+			x2 += dx[dir];
+			y2 += dy[dir];
+		}
+		return true;
+	}
 }

@@ -19,10 +19,10 @@ public:
 	~Round()override {}
 	Pos last_shoot_pos;
 private:
-	int common_bul_force = 10;
 	int Q_bul_force = 15;
 	int Q_skill_cnt = 0;
 	int E_skill_cnt = 0;
+	int R_skill_cnt = 0;
 	Bullet* create_Q_bullet();
 };
 
@@ -37,10 +37,11 @@ private:
 };
 class Camera : public Player {
 public:
-	Camera(int _x, int _y, Player* master);
+	Camera(int _x, int _y, Player* _master);
 	void hit(Bullet* bul)override;
 	void fire(Bullet* bul)override;
 	void update();
+	void show()override;
 private:
 	Player* master;
 	std::vector<int> ins;

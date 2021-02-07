@@ -11,7 +11,7 @@ public:
 	bool alive=true;
 	int force = 10;
 	int speed = 4;
-	Player* shooter;
+	int team;
 	virtual ~Bullet()override {}
 private:
 	
