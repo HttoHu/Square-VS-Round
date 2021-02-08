@@ -89,7 +89,6 @@ int Walker::update()
 			r = nr;
 			nc = c + dc[ins];
 			nr = r + dr[ins];
-			printf("->(%d,%d)\n", nc, nr);
 			dest_x = nc * BRICK_SIZE + BRICK_SIZE / 2, dest_y = nr * BRICK_SIZE + BRICK_SIZE / 2;
 		}
 	}

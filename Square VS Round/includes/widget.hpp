@@ -20,8 +20,8 @@ namespace Widgets
 	SDL_Color to_sdl_color(ColorRGB color);
 
 	// test functions
-	void print_text(int x, int y, uint16_t* str);
-	void print_text(int x, int y, const std::string& str);
+	void print_text(int x, int y, const uint16_t* str,ColorTag color=BLACK);
+	void print_text(int x, int y, const std::string& str, ColorTag color= BLACK);
 	namespace vars
 	{
 		void init_ttf(int font_size=12);
@@ -29,15 +29,33 @@ namespace Widgets
 		extern TTF_Font* big_font;
 		extern TTF_Font* small_font;
 	}
+	class Widget {
+	public:
+		virtual ~Widget() {}
+		virtual void show();
+		void set_width_hight();
+		int get_height()
+		{
+			return h;
+		}
+		int get_width() {
+			return w;
+		}
 
-	class TextBlock
+		int w=0, h=0, x=0, y=0;
+		SDL_Texture* texture=nullptr;
+		
+	};
+	class TextBlock:public Widget
 	{
 	public:
 		TextBlock(FontSize font_size);
 		void reset_content(const std::string& str) { content = str; }
 		void reset_pos(int nx, int ny) { x = nx, y = ny;  }
+		void reset_color(ColorTag c) { foreground = c; }
 		void show();
 	private:
+		ColorTag foreground=BLACK;
 		TTF_Font* font;
 		std::string content;
 		int x = 0;
@@ -50,10 +68,17 @@ namespace Widgets
 		void show();
 		void set_pos(int _x, int _y) { x = _x, y = _y; }
 		void change_pic(const std::string& pic_str);
-
+		int get_width();
+		int get_hight();
 		~Image();
 	private:
 		SDL_Texture* texture;
 		int x=0, y=0;
+	};
+
+	class Button {
+	public:
+
+	private:
 	};
 }

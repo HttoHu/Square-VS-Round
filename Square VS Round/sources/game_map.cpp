@@ -75,6 +75,10 @@ std::pair<int, int> Map::gen_space(int no)
 namespace tools
 {
 	namespace {
+		struct Pair {
+			int first;
+			int second;
+		};
 		int vis[50][50];
 		int track[50][50];
 	}
@@ -82,6 +86,7 @@ namespace tools
     // 2 -> RIGHT
     // 3 -> UP
     // 4 -> DOWN
+
 	bool count_shortest_path(const Map& map, std::vector<int>& path, int x1, int y1, int x2, int y2)
 	{
 		int dx[] = { 0, -1,1,0,0 };
@@ -89,7 +94,7 @@ namespace tools
 		int rev[] = { 0,2,1,4,3 };
 		memset(vis, 0, sizeof(vis));
 		memset(track, 0, sizeof(track));
-		std::queue<std::pair<int, int>> q;
+		std::queue<Pair> q;
 		q.push({ x1,y1 });
 		vis[x1][y1] = 1;
 		bool ok = false;

@@ -21,8 +21,10 @@ void loop_the_game() {
 		Screen::prepare_screen();
 		do_input();
 		app.update();
+		const wchar_t* str = L"¿ªÊ¼ÓÎÏ·";
 		test::test_update();
 		Screen::draw_objects();
+		Widgets::print_text(0, 0, (uint16_t*)str,Widgets::PINK);
 		Screen::update_screen();
 		Screen::cap_frame_rate(then, remainer);
 	}

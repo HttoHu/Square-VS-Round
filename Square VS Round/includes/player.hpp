@@ -47,10 +47,11 @@ public:
 	// next block_pos
 	int nr, nc;
 	bool prepared = false;
+	std::vector<int> walk_ins;
 private:
 	int speed;
 	Player* walker;
-	std::vector<int> walk_ins;
+
 
 
 };

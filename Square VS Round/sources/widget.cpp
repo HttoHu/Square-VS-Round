@@ -50,17 +50,17 @@ namespace Widgets
 	{
 		return { (uint8_t)color.r,(uint8_t)color.g,(uint8_t)color.b };
 	}
-	void print_text(int x, int y, uint16_t* str) {
-		auto color = to_sdl_color(get_color_rgb(BLACK));
+	void print_text(int x, int y, const uint16_t* str, ColorTag c) {
+		auto color = to_sdl_color(get_color_rgb(c));
 		SDL_Surface* surface = TTF_RenderUNICODE_Blended(vars::main_font, str, color);
 		SDL_Texture* texture = SDL_CreateTextureFromSurface(app.renderer, surface);
 		Screen::blit_static(texture, x, y);
 		SDL_FreeSurface(surface);
 		SDL_DestroyTexture(texture);
 	}
-	void print_text(int x, int y, const std::string& str)
+	void print_text(int x, int y, const std::string& str, ColorTag c)
 	{
-		auto color = to_sdl_color(get_color_rgb(GREEN));
+		auto color = to_sdl_color(get_color_rgb(c));
 		SDL_Surface* surface = TTF_RenderUTF8_Blended(vars::main_font, str.c_str(), color);
 		SDL_Texture* texture = SDL_CreateTextureFromSurface(app.renderer, surface);
 		Screen::blit_static(texture,x,y);
@@ -87,7 +87,7 @@ namespace Widgets
 	}
 	void TextBlock::show()
 	{
-		print_text(x, y, content);
+		print_text(x, y, content,foreground);
 	}
 	Image::Image(const std::string & pic_str)
 	{
@@ -105,5 +105,13 @@ namespace Widgets
 	Image::~Image()
 	{
 		SDL_DestroyTexture(texture);
+	}
+	void Widget::show()
+	{
+		Screen::blit_static(texture,x,y);
+	}
+	void Widget::set_width_hight()
+	{
+		SDL_QueryTexture(texture, NULL, NULL, &w, &h);
 	}
 }

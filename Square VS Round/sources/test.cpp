@@ -12,7 +12,6 @@ namespace test
 	void gen_enemy(int _x,int _y) {
 		Square* enemy=new Square(_x, _y, "eny");
 		enemy->team_id = 2;
-		printf("%d,%d\n", enemy->get_h(), enemy->get_w());
 		Walker* enemy_walker= new Walker(enemy, 2);
 		vars::stage.players.push_back(enemy);
 		enemys.push_back(enemy);
@@ -20,7 +19,7 @@ namespace test
 	}
 	void test::test_init()
 	{		
-		for (int i = 1; i <= 3; i++)
+		for (int i = 1; i <= 8; i++)
 		{
 			auto pos = app.game_map->gen_space(i*10);
 			gen_enemy(pos.first, pos.second);
@@ -50,11 +49,7 @@ namespace test
 
 				int x2 = vars::player->get_center_x() / BRICK_SIZE;
 				int y2 = vars::player->get_center_y() / BRICK_SIZE;
-				std::vector<int> new_ins;// = {2,2,2,4,4,4};
-				tools::count_shortest_path(*app.game_map, new_ins, x1, y1, x2, y2);
-				for (auto a : new_ins)
-					printf("%d-", a);
-				enemy_walker->set_ins(std::move(new_ins));
+				tools::count_shortest_path(*app.game_map, enemy_walker->walk_ins, x1, y1, x2, y2);
 			}
 		}
 	}
