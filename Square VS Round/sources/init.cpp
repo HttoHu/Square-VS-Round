@@ -33,7 +33,7 @@ void init_SDL(){
 	}
 
 	IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG);
-	SDL_ShowCursor(0);
+	
 
 
 	Widgets::vars::init_ttf();

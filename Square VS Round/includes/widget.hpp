@@ -19,9 +19,9 @@ namespace Widgets
 	ColorRGB get_color_rgb(ColorTag color_tag);
 	SDL_Color to_sdl_color(ColorRGB color);
 
-	// test functions
-	void print_text(int x, int y, const uint16_t* str,ColorTag color=BLACK);
-	void print_text(int x, int y, const std::string& str, ColorTag color= BLACK);
+	SDL_Texture* print_text( const std::wstring& str,TTF_Font*,ColorTag color=BLACK);
+	SDL_Texture* print_text( const std::string& str, TTF_Font*, ColorTag color= BLACK);
+	TTF_Font* get_font_by_size(FontSize);
 	namespace vars
 	{
 		void init_ttf(int font_size=12);
@@ -34,6 +34,7 @@ namespace Widgets
 		virtual ~Widget() {}
 		virtual void show();
 		void set_width_hight();
+		void reset_pos(int nx, int ny) { x = nx, y = ny; }
 		int get_height()
 		{
 			return h;
@@ -49,17 +50,18 @@ namespace Widgets
 	class TextBlock:public Widget
 	{
 	public:
-		TextBlock(FontSize font_size);
-		void reset_content(const std::string& str) { content = str; }
-		void reset_pos(int nx, int ny) { x = nx, y = ny;  }
+		TextBlock(FontSize font_size,const std::wstring &str);
+
+		void reprint();
+		void reset_content(const std::wstring& str) { content = str; }
+		void reset_content(const std::string& str);
 		void reset_color(ColorTag c) { foreground = c; }
-		void show();
+
+		~TextBlock() { SDL_DestroyTexture(texture); }
 	private:
 		ColorTag foreground=BLACK;
 		TTF_Font* font;
-		std::string content;
-		int x = 0;
-		int y = 0;
+		std::wstring content;
 	};
 
 	class Image {
@@ -78,7 +80,16 @@ namespace Widgets
 
 	class Button {
 	public:
+		Button(int x,int y,const std::string & _str, ColorTag co, FontSize sz = NORMAL);
+		void click_button() { click(this); }
+		void set_click(const std::function<void(Button*)>& func) { click = func; }
+		void show();
+		bool test_pos(int x, int y);
 
+		void move_here();
+		bool move_flag = false;
+		TextBlock* content;
 	private:
+		std::function<void(Button*)> click;
 	};
 }

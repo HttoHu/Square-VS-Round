@@ -5,6 +5,7 @@
 #include "../includes/test.hpp"
 #include "../includes/widget.hpp"
 #include "../includes/draw.hpp"
+#include "../includes/UI.hpp"
 void init_the_game() {
 	init_SDL();
 	App::game_init();
@@ -21,10 +22,8 @@ void loop_the_game() {
 		Screen::prepare_screen();
 		do_input();
 		app.update();
-		const wchar_t* str = L"¿ªÊ¼ÓÎÏ·";
 		test::test_update();
 		Screen::draw_objects();
-		Widgets::print_text(0, 0, (uint16_t*)str,Widgets::PINK);
 		Screen::update_screen();
 		Screen::cap_frame_rate(then, remainer);
 	}
@@ -32,9 +31,9 @@ void loop_the_game() {
 
 int main(int argc, char** argv) {
 	srand(clock());
-	memset(&app, 0, sizeof(app));
 
-	init_the_game();
-	loop_the_game();
+	init_SDL();
+	UI::MainPage::init();
+	UI::run_page(UI::MainPage::exit_flag, UI::MainPage::update);
 	return 0;
 }

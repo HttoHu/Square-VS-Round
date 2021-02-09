@@ -96,6 +96,7 @@ void player_update() {
 }
 void App::game_init()
 {
+	SDL_ShowCursor(0);
 	// init map
 	app.game_map = new Map("map1.dat");
 	app.game_map->show();
@@ -116,7 +117,7 @@ void App::game_init()
 	app.split_line->set_pos(0, 620);
 	app.split_line->show();
 	// property infomation
-	app.property = new Widgets::TextBlock(Widgets::NORMAL);
+	app.property = new Widgets::TextBlock(Widgets::NORMAL,L"");
 	app.property->reset_content("HP: " + std::to_string(vars::player->hp) + "      Lv:  " + std::to_string(vars::player->level));
 	app.property->reset_pos(bottom_ui_start, 670);
 	app.property->show();
