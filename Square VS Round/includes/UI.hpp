@@ -23,7 +23,14 @@ namespace UI
 
 	namespace HelpPage
 	{
-
+		extern Widgets::Button* back_button;
+		extern Widgets::TextBlock* text_block;
+		extern bool exit_flag;
+		extern bool inited;
+		extern std::wstring help_info;
+		void init();
+		void update();
+		void process_input();
 	}
 	namespace GameSelect
 	{

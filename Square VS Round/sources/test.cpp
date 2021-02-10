@@ -1,11 +1,15 @@
 #include "../includes/test.hpp"
 #include "../includes/utility.hpp"
 #include "../includes/game_map.hpp"
+#include "../includes/widget.hpp"
 #include "../includes/square.hpp"
 #include "../includes/bullet.hpp"
+#include "../includes/draw.hpp"
 #include "../includes/game.hpp"
 namespace test
 {
+	int player_score = 0;
+	int start_time = 0;
 
 	std::vector<Square*> enemys;
 	std::vector<Walker*> walkers;
@@ -17,9 +21,11 @@ namespace test
 		enemys.push_back(enemy);
 		walkers.push_back(enemy_walker);
 	}
+
 	void test::test_init()
 	{		
-		for (int i = 1; i <= 8; i++)
+		start_time = SDL_GetTicks();
+		for (int i = 1; i <= 3; i++)
 		{
 			auto pos = app.game_map->gen_space(i*10);
 			gen_enemy(pos.first, pos.second);
@@ -27,12 +33,61 @@ namespace test
 	}
 	void test_update()
 	{
+		while (SDL_GetTicks() - start_time >= 20000 || enemys.size()<3)
+		{
+			auto pos = app.game_map->gen_space(rand()%200);
+			gen_enemy(pos.first, pos.second);
+
+			start_time = SDL_GetTicks();
+		}
+		if (vars::player->level<4 && player_score > vars::player->level * 15)
+		{
+			player_score -= vars::player->level * 15;
+			vars::player->upgrade();
+		}
+		if (vars::player->level==4 && player_score >= 40)
+		{
+			Screen::prepare_screen();
+			auto texture = Widgets::print_text(std::wstring(L"你赢了\9秒后游戏自动关闭"), Widgets::get_font_by_size(Widgets::BIG));
+			Screen::blit_static(texture, 500, 300);
+			Screen::update_screen();
+			for (int i = 1; i < 300; i++)
+			{
+				do_input();
+				SDL_Delay(30);
+			}
+			exit(0);
+		}
+		else if (vars::player->hp <= 0)
+		{
+			Screen::prepare_screen();
+			auto texture = Widgets::print_text(std::wstring(L"你输了\n5秒后游戏自动关闭"), Widgets::get_font_by_size(Widgets::BIG));
+			Screen::blit_static(texture, 500, 300);
+			do_input();
+			Screen::update_screen();
+			for (int i = 1; i < 100; i++)
+			{
+				do_input();
+				SDL_Delay(30);
+			}
+			exit(0);
+		}
 		for (int i = 0; i < enemys.size(); i++)
 		{
 			Square* enemy = enemys[i];
 			Walker* enemy_walker = walkers[i];
 
-
+			if (enemy->hp <= 0)
+			{
+				std::swap(enemys[i], enemys.back());
+				std::swap(walkers[i], walkers.back());
+				delete walkers.back();
+				delete enemys.back();
+				walkers.pop_back();
+				enemys.pop_back();
+				player_score += 10;
+				continue;
+			}
 			if (enemy->bullet_cnt >= 100)
 			{
 				enemy->bullet_cnt -= 100;

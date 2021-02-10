@@ -71,7 +71,7 @@ namespace Widgets
 		auto color = to_sdl_color(get_color_rgb(c));
 
 
-		SDL_Surface* surface = TTF_RenderUNICODE_Blended(font, (uint16_t*)str.c_str(), color);
+		SDL_Surface* surface = TTF_RenderUNICODE_Blended_Wrapped(font, (uint16_t*)str.c_str(), color,1000);
 		SDL_Texture* texture = SDL_CreateTextureFromSurface(app.renderer, surface);
 
 		SDL_FreeSurface(surface);
@@ -83,7 +83,7 @@ namespace Widgets
 		auto color = to_sdl_color(get_color_rgb(c));
 
 
-		SDL_Surface* surface = TTF_RenderUTF8_Blended(font, str.c_str(), color);
+		SDL_Surface* surface = TTF_RenderText_Blended_Wrapped(font, str.c_str(), color, 1000);
 		SDL_Texture* texture = SDL_CreateTextureFromSurface(app.renderer, surface);
 
 		SDL_FreeSurface(surface);

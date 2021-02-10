@@ -2,6 +2,7 @@
 #include "../includes/draw.hpp"
 #include <fstream>
 #include <queue>
+#include <time.h>
 Map::Map(const std::string& file_name)
 {
 	std::ifstream ifs(file_name);
@@ -93,7 +94,6 @@ namespace tools
 		int dy[] = { 0, 0,0,-1,1 };
 		int rev[] = { 0,2,1,4,3 };
 		memset(vis, 0, sizeof(vis));
-		memset(track, 0, sizeof(track));
 		std::queue<Pair> q;
 		q.push({ x1,y1 });
 		vis[x1][y1] = 1;

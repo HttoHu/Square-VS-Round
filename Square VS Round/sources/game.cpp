@@ -102,9 +102,7 @@ void App::game_init()
 	app.game_map->show();
 	// init cursor and play...
 	vars::player = new Round((double)SCREEN_WIDTH / 2, (double)SCREEN_HEIGHT / 2, "player1");
-	vars::player->upgrade();
-	vars::player->upgrade();
-	vars::player->upgrade();
+;
 	auto mouse_pos = tools::get_cursor_pos();
 	vars::cursor = new Entity(mouse_pos.first, mouse_pos.second, "../assets/targetter.png");
 	vars::cursor->set_static();

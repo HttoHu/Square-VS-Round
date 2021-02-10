@@ -40,7 +40,7 @@ void Round::upgrade()
 
 void Round::update()
 {
-	bullet_cnt += shoot_speed;
+	bullet_cnt += shoot_speed*2;
 	Q_skill_cnt++, E_skill_cnt++,R_skill_cnt++;
 	// You can shoot two high speed bullet at the same time;
 	Q_skill_cnt = std::min(Q_skill_cnt, 550);
