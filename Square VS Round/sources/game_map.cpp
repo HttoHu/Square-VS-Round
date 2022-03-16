@@ -3,6 +3,8 @@
 #include <fstream>
 #include <queue>
 #include <time.h>
+#include <tuple>
+
 Map::Map(const std::string& file_name)
 {
 	std::ifstream ifs(file_name);
@@ -63,13 +65,13 @@ bool Map::enable_to_walk(int x1, int y1, int x2, int y2)
 std::pair<int, int> Map::gen_space(int no)
 {
 	int cnt = 0;
-	for(int i=0;i<content.size();i++)
-		for(int j=0;j<content.size();j++)
+	for (int i = 0; i < content.size(); i++)
+		for (int j = 0; j < content.size(); j++)
 			if (content[i][j] == 0)
 			{
 				cnt++;
 				if (cnt == no)
-					return { j*BRICK_SIZE+BRICK_SIZE/2,i * BRICK_SIZE + BRICK_SIZE / 2 };
+					return { j * BRICK_SIZE + BRICK_SIZE / 2,i * BRICK_SIZE + BRICK_SIZE / 2 };
 			}
 	return { -1,-1 };
 }
@@ -83,10 +85,10 @@ namespace tools
 		int vis[50][50];
 		int track[50][50];
 	}
-    // 1 -> LEFT 
-    // 2 -> RIGHT
-    // 3 -> UP
-    // 4 -> DOWN
+	// 1 -> LEFT 
+	// 2 -> RIGHT
+	// 3 -> UP
+	// 4 -> DOWN
 
 	bool count_shortest_path(const Map& map, std::vector<int>& path, int x1, int y1, int x2, int y2)
 	{
@@ -94,14 +96,14 @@ namespace tools
 		int dy[] = { 0, 0,0,-1,1 };
 		int rev[] = { 0,2,1,4,3 };
 		memset(vis, 0, sizeof(vis));
-		std::queue<Pair> q;
-		q.push({ x1,y1 });
+		using Tri = std::tuple<int, int, int>;
+		std::priority_queue<Tri, std::vector< Tri>, std::greater<Tri>> q;
+		q.push({ abs(x1 - x2) + abs(y1 - y2),x1,y1 });
 		vis[x1][y1] = 1;
 		bool ok = false;
 		while (!q.empty())
 		{
-			int x = q.front().first;
-			int y = q.front().second;
+			auto [d, x, y] = q.top();
 			q.pop();
 
 			for (int i = 1; i <= 4; i++)
@@ -110,7 +112,7 @@ namespace tools
 				int ny = y + dy[i];
 				if (vis[nx][ny] || nx < 0 || ny < 0 || nx >= map.width || ny >= map.hight || map.content[ny][nx])continue;
 
-				q.push({ nx,ny });
+				q.push({ abs(nx - x2) + abs(ny - y2),nx,ny });
 				track[nx][ny] = rev[i];
 				vis[nx][ny] = 1;
 				if (nx == x2 && ny == y2) {

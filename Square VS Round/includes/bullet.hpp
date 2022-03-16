@@ -9,6 +9,9 @@ public:
 	bool is_shooter(Player* p);
 	double dx, dy;
 	bool alive=true;
+
+	bool damage = true;
+	bool cure_friend = false;
 	int force = 10;
 	int speed = 4;
 	int team;

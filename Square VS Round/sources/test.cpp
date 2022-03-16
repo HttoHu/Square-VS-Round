@@ -2,7 +2,7 @@
 #include "../includes/utility.hpp"
 #include "../includes/game_map.hpp"
 #include "../includes/widget.hpp"
-#include "../includes/square.hpp"
+#include "../includes/smile.hpp"
 #include "../includes/bullet.hpp"
 #include "../includes/draw.hpp"
 #include "../includes/game.hpp"
@@ -11,10 +11,10 @@ namespace test
 	int player_score = 0;
 	int start_time = 0;
 
-	std::vector<Square*> enemys;
+	std::vector<Smile*> enemys;
 	std::vector<Walker*> walkers;
 	void gen_enemy(int _x,int _y) {
-		Square* enemy=new Square(_x, _y, "eny");
+		Smile* enemy=new Smile(_x, _y, "eny");
 		enemy->team_id = 2;
 		Walker* enemy_walker= new Walker(enemy, 2);
 		vars::stage.players.push_back(enemy);
@@ -74,7 +74,7 @@ namespace test
 		}
 		for (int i = 0; i < enemys.size(); i++)
 		{
-			Square* enemy = enemys[i];
+			Smile* enemy = enemys[i];
 			Walker* enemy_walker = walkers[i];
 
 			if (enemy->hp <= 0)

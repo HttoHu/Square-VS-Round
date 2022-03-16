@@ -14,6 +14,9 @@ namespace vars {
 }
 struct App;
 extern App app;
+extern std::string asset_path;
+
+std::string get_assets_path(const std::string& str);
 void init_SDL();
 
 void clean_up();

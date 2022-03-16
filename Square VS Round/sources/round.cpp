@@ -40,13 +40,13 @@ void Round::upgrade()
 
 void Round::update()
 {
-	bullet_cnt += shoot_speed*2;
-	Q_skill_cnt++, E_skill_cnt++,R_skill_cnt++;
+	bullet_cnt += shoot_speed * 2;
+	Q_skill_cnt++, E_skill_cnt++, R_skill_cnt++;
 	// You can shoot two high speed bullet at the same time;
 	Q_skill_cnt = std::min(Q_skill_cnt, 550);
 	E_skill_cnt = std::min(E_skill_cnt, 600);
 	R_skill_cnt = std::min(R_skill_cnt, 1200);
-	bullet_cnt = std::min(bullet_cnt,500);
+	bullet_cnt = std::min(bullet_cnt, 500);
 }
 
 void Round::show()
@@ -123,7 +123,7 @@ void RoundShield::show()
 	Player::show();
 }
 
-Camera::Camera(int _x, int _y, Player* _master) :Player(_x, _y, "../assets/round_camera.png"),master(_master)
+Camera::Camera(int _x, int _y, Player* _master) :Player(_x, _y, "../assets/round_camera.png"), master(_master)
 {
 	hp = 100;
 	hp_cap = 100;
@@ -145,12 +145,12 @@ void Camera::fire(Bullet* bul)
 	tools::set_dx_dy_by_angle(bul->dx, bul->dy, tools::get_angle(pos.x, pos.y, p.x, p.y), bul->speed);
 	bul->team = team_id;
 	bul->pos = pos;
-	bul->force = 15;
+	bul->force = 3;
 }
 
 void Camera::update()
 {
-	bullet_cnt++;
+	bullet_cnt += 10;
 	bullet_cnt = std::min(bullet_cnt, 200);
 	// fire
 	if (bullet_cnt >= 100)
@@ -167,7 +167,7 @@ void Camera::update()
 	dest.x += master->get_w() / 2;
 	dest.y += master->get_h() / 2;
 	double eps = std::max(master->get_h(), master->get_w());
-	if (!dest.collide(pos, eps)) 
+	if (!dest.collide(pos, eps))
 		pos.x += dx, pos.y += dy;
 }
 

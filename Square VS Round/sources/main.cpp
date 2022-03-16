@@ -6,6 +6,9 @@
 #include "../includes/widget.hpp"
 #include "../includes/draw.hpp"
 #include "../includes/UI.hpp"
+
+#include "../libs/json_parser.hpp"
+
 void init_the_game() {
 	init_SDL();
 	App::game_init();
@@ -30,6 +33,9 @@ void loop_the_game() {
 }
 
 int main(int argc, char** argv) {
+	JSON json = JSON::read_from_file("./config.json");
+	asset_path = json["asset_path"].get_str();
+	std::cout << asset_path << "\n";
 	srand(clock());
 
 	init_SDL();

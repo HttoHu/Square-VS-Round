@@ -9,6 +9,10 @@ namespace Widgets
 		void init_ttf(int font_size=20);
 	}
 }
+std::string get_assets_path(const std::string& str)
+{
+	return asset_path + "/" + str;
+}
 void init_SDL(){
 	int renderer_flags, windows_flags;
 	renderer_flags = SDL_RENDERER_ACCELERATED;

@@ -1,10 +1,10 @@
 #pragma once
 #include <SDL.h>
-struct Square;
+struct Smile;
 
 namespace test
 {
-	extern Square* enemy;
+	extern Smile* enemy;
 	void test_init();
 	void test_update();
 }
