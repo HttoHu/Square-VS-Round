@@ -75,12 +75,10 @@ namespace UI
 			using namespace Widgets;
 			logo = new Image("../assets/logo.png");
 			logo->set_pos(500, 110);
-
-			add_button(550, 400, "¿ªÊ¼ÓÎÏ·", click_start_game);
-			add_button(550, 460, "ÓÎÏ·ËµÃ÷", click_help_button);
-			add_button(550, 520, "ÍË³öÓÎÏ·", click_exit_game);
-
-
+            
+			add_button(550, 400, "Start Game", click_start_game);
+			add_button(550, 460, "Help", click_help_button);
+			add_button(550, 520, "Exit Game", click_exit_game);
 		}
 		void update()
 		{
@@ -143,7 +141,7 @@ namespace UI
 		Widgets::TextBlock* text_block;
 		bool exit_flag = false;
 		bool inited = false;
-		std::wstring help_info=L"WASDÒÆ¶¯\nQ,E,R¼¼ÄÜ\nÊó±ê×ó¼üÃé×¼Éä»÷\n============================================\nÔÚ1v3Ä£Ê½ÖÐ£¬ÓÐÒ»¸öBossºÍÈý¸öÓ¢ÐÛ£¬Äã½«Ñ¡ÔñÆäÖÐÖ®Ò»ÓëÁíÒ»·½½ÏÁ¿\nBoss³õÊ¼µÈ¼¶1¼¶£¬ÕóÍöÒ»´ÎµÈ¼¶+1,ËÄ¼¶ËÀÍö¼´Ê§°Ü\nÓ¢ÐÛ³õÊ¼µÈ¼¶4¼¶£¬ÕóÍöÒ»´ÎµÈ¼¶-1£¬1¼¶ËÀÍö¸ÃÓ¢ÐÛÕóÍö£¬È«²¿ÕóÍö£¬Boss»ñÊ¤\n";
+		std::wstring help_info=L"WASDç§»åŠ¨\nQ,E,RæŠ€èƒ½\né¼ æ ‡å·¦é”®çž„å‡†å°„å‡»\n============================================\nåœ¨1v3æ¨¡å¼ä¸­ï¼Œæœ‰ä¸€ä¸ªBosså’Œä¸‰ä¸ªè‹±é›„ï¼Œä½ å°†é€‰æ‹©å…¶ä¸­ä¹‹ä¸€ä¸Žå¦ä¸€æ–¹è¾ƒé‡\nBossåˆå§‹ç­‰çº§1çº§ï¼Œé˜µäº¡ä¸€æ¬¡ç­‰çº§+1,å››çº§æ­»äº¡å³å¤±è´¥\nè‹±é›„åˆå§‹ç­‰çº§4çº§ï¼Œé˜µäº¡ä¸€æ¬¡ç­‰çº§-1ï¼Œ1çº§æ­»äº¡è¯¥è‹±é›„é˜µäº¡ï¼Œå…¨éƒ¨é˜µäº¡ï¼ŒBossèŽ·èƒœ\n";
 
 		void init()
 		{
@@ -154,7 +152,7 @@ namespace UI
 			text_block->reset_color(ColorTag::BLACK);
 			text_block->reprint();
 
-			back_button = new Button(text_block->x + text_block->w / 2, text_block->y + text_block->h + 100,"·µ»Ø", BLACK,NORMAL);
+			back_button = new Button(text_block->x + text_block->w / 2, text_block->y + text_block->h + 100,"è¿”å›ž", BLACK,NORMAL);
 			back_button->set_click(back_button_click);
 		}
 		void update()

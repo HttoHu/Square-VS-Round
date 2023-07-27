@@ -48,7 +48,7 @@ namespace test
 		if (vars::player->level==4 && player_score >= 40)
 		{
 			Screen::prepare_screen();
-			auto texture = Widgets::print_text(std::wstring(L"你赢了\9秒后游戏自动关闭"), Widgets::get_font_by_size(Widgets::BIG));
+			auto texture = Widgets::print_text("Win, the game will exit after 9 secs", Widgets::get_font_by_size(Widgets::BIG));
 			Screen::blit_static(texture, 500, 300);
 			Screen::update_screen();
 			for (int i = 1; i < 300; i++)
@@ -61,7 +61,7 @@ namespace test
 		else if (vars::player->hp <= 0)
 		{
 			Screen::prepare_screen();
-			auto texture = Widgets::print_text(std::wstring(L"你输了\n5秒后游戏自动关闭"), Widgets::get_font_by_size(Widgets::BIG));
+			auto texture = Widgets::print_text("Lost, the game will exit after 9 secs", Widgets::get_font_by_size(Widgets::BIG));
 			Screen::blit_static(texture, 500, 300);
 			do_input();
 			Screen::update_screen();

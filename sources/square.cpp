@@ -1,4 +1,4 @@
-#include "..\includes\square.hpp"
+#include "../includes/square.hpp"
 #include "../includes/bullet.hpp"
 #include "../includes/game.hpp"
 #include "../includes/utility.hpp"
