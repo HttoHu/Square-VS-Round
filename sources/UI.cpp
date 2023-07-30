@@ -141,7 +141,9 @@ namespace UI
 		Widgets::TextBlock* text_block;
 		bool exit_flag = false;
 		bool inited = false;
-		std::wstring help_info=L"WASD移动\nQ,E,R技能\n鼠标左键瞄准射击\n============================================\n在1v3模式中，有一个Boss和三个英雄，你将选择其中之一与另一方较量\nBoss初始等级1级，阵亡一次等级+1,四级死亡即失败\n英雄初始等级4级，阵亡一次等级-1，1级死亡该英雄阵亡，全部阵亡，Boss获胜\n";
+		std::string help_info=R"(
+WASD to move
+You can press Q,E,R to enable corrospond skills)";
 
 		void init()
 		{
@@ -152,7 +154,7 @@ namespace UI
 			text_block->reset_color(ColorTag::BLACK);
 			text_block->reprint();
 
-			back_button = new Button(text_block->x + text_block->w / 2, text_block->y + text_block->h + 100,"返回", BLACK,NORMAL);
+			back_button = new Button(text_block->x + text_block->w / 2, text_block->y + text_block->h + 100,"Back", BLACK,NORMAL);
 			back_button->set_click(back_button_click);
 		}
 		void update()

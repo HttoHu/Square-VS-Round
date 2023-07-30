@@ -28,6 +28,22 @@
         "__nullptr": "cpp",
         "compare": "cpp",
         "concepts": "cpp",
-        "algorithm": "cpp"
+        "algorithm": "cpp",
+        "__availability": "cpp",
+        "__hash_table": "cpp",
+        "ios": "cpp",
+        "list": "cpp",
+        "vector": "cpp",
+        "__split_buffer": "cpp",
+        "deque": "cpp",
+        "__bit_reference": "cpp",
+        "__tree": "cpp",
+        "array": "cpp",
+        "bitset": "cpp",
+        "forward_list": "cpp",
+        "map": "cpp",
+        "set": "cpp",
+        "unordered_map": "cpp",
+        "filesystem": "cpp"
     }
 }

@@ -8,10 +8,13 @@
 #include "../includes/game_map.hpp"
 void Stage::draw_players()
 {
-    for (std::list<Player *>::iterator it = players.begin(); it != players.end();)
+    for (auto it = players.begin(); it != players.end();)
     {
         if ((*it)->hp <= 0)
+        {
+            (*it)->remove_from_list();
             players.erase(it++);
+        }
         else
         {
             (*it)->show();
@@ -34,6 +37,11 @@ void Stage::draw_bullets()
                 return;
         }
     }
+}
+void App::update_property()
+{
+    app.property->reset_content("HP: " + std::to_string(vars::player->hp) + "      Lv:  " + std::to_string(vars::player->level));
+    app.property->reprint();
 }
 
 void player_update()
@@ -104,24 +112,22 @@ void App::game_init()
     app.game_map->show();
     // init cursor and play...
     vars::player = new Round((double)SCREEN_WIDTH / 2, (double)SCREEN_HEIGHT / 2, "player1");
-    ;
     auto mouse_pos = tools::get_cursor_pos();
     vars::cursor = new Entity(mouse_pos.first, mouse_pos.second, "../assets/targetter.png");
     vars::cursor->set_static();
     vars::stage.players.push_back(vars::player);
 
-    int bottom_ui_start = 10;
+    int bottom_ui_start = 20;
     // split line
     app.split_line = new Widgets::Image("../assets/property_split_line.png");
-    ;
     app.split_line->set_pos(0, 620);
     app.split_line->show();
     // property infomation
-    app.property = new Widgets::TextBlock(Widgets::NORMAL, L"");
-    app.property->reset_content("HP: " + std::to_string(vars::player->hp) + "      Lv:  " + std::to_string(vars::player->level));
+    app.property = new Widgets::TextBlock(Widgets::NORMAL, "");
     app.property->reset_pos(bottom_ui_start, 670);
+    app.update_property();
     app.property->show();
-    bottom_ui_start += 260;
+    bottom_ui_start += 250;
 
     // init skill states
     // ----- Q skill------

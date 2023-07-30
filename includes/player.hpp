@@ -23,9 +23,14 @@ public:
 	void aim(Pos p) { aim_pos = p; }
 	Pos get_aim_pos() { return aim_pos; }
 	void show()override;
+    
+    // when the object is removed from players the function will be called.
+    virtual void remove_from_list(){delete this;}
 	virtual void upgrade() {}
 	virtual void fire(Bullet* bul);
+
 	virtual void hit(Bullet* bul);
+
 	virtual bool skill_enable(int skill_id);
 	virtual void skill_run(int skill_id) {};
 	~Player() {}
@@ -51,7 +56,4 @@ public:
 private:
 	int speed;
 	Player* walker;
-
-
-
 };

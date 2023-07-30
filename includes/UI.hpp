@@ -27,7 +27,7 @@ namespace UI
 		extern Widgets::TextBlock* text_block;
 		extern bool exit_flag;
 		extern bool inited;
-		extern std::wstring help_info;
+		extern std::string help_info;
 		void init();
 		void update();
 		void process_input();

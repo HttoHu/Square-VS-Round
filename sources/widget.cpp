@@ -89,20 +89,15 @@ namespace Widgets
     {
         SDL_QueryTexture(texture, NULL, NULL, &w, &h);
     }
-    TextBlock::TextBlock(FontSize font_size, const std::wstring &str) : content(str)
+    TextBlock::TextBlock(FontSize font_size, const std::string &str) : content(str)
     {
         font = get_font_by_size(font_size);
     }
     void TextBlock::reprint()
     {
         SDL_DestroyTexture(texture);
-        texture = print_text(tools::wstring_to_string(content),font,foreground);
+        texture = print_text(content,font,foreground);
         set_width_hight();
-    }
-
-    void TextBlock::reset_content(const std::string &str)
-    {
-        content = tools::string_to_wstring(str);
     }
 
     Image::Image(const std::string &pic_str)
@@ -125,7 +120,7 @@ namespace Widgets
     Button::Button(int x, int y, const std::string &_str, ColorTag co, FontSize sz)
     {
         // set text
-        content = new TextBlock(sz, tools::string_to_wstring(_str));
+        content = new TextBlock(sz, _str);
         content->reset_pos(x, y);
         content->reprint();
     }

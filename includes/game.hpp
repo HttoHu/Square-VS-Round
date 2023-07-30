@@ -16,6 +16,8 @@ struct App
 	SDL_Renderer* renderer;
 	SDL_Window* window;
 	Map* game_map;
+public:
+    void update_property();
 
 	static void game_init();
 	static void update();
@@ -26,12 +28,12 @@ struct App
 	Pos target;
 	Pos camera;
 
-
 	Widgets::TextBlock* property;
 	Widgets::Image* split_line;
 	Widgets::Image* Q_skill_tag;
 	Widgets::Image* E_skill_tag;
 	Widgets::Image* R_skill_tag;
+
 };
 
 

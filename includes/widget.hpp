@@ -59,11 +59,10 @@ namespace Widgets
     class TextBlock : public Widget
     {
     public:
-        TextBlock(FontSize font_size, const std::wstring &str);
+        TextBlock(FontSize font_size, const std::string &str);
 
         void reprint();
-        void reset_content(const std::wstring &str) { content = str; }
-        void reset_content(const std::string &str);
+        void reset_content(const std::string &str) { content = str; }
         void reset_color(ColorTag c) { foreground = c; }
 
         ~TextBlock() { SDL_DestroyTexture(texture); }
@@ -71,7 +70,7 @@ namespace Widgets
     private:
         ColorTag foreground = BLACK;
         TTF_Font *font;
-        std::wstring content;
+        std::string content;
     };
 
     class Image
